@@ -507,7 +507,7 @@ window.addEventListener('resize', resizeFF);
 
 /* Click Spark */
 document.addEventListener('click', e => {
-  ['✨','💛'].forEach((em, i) => {
+  ['✨','🌻'].forEach((em, i) => {
     const s = document.createElement('div');
     s.className = 'spark'; s.textContent = em;
     s.style.left = e.clientX+'px'; s.style.top = e.clientY+'px';
@@ -555,7 +555,7 @@ btn.addEventListener('click',    handleEntry);
 btn.addEventListener('touchend', handleEntry, { passive: false });
 
 /* Petal Rain */
-const PETALS = ['🪻','🌷','💛','✨','🌻'];
+const PETALS = ['🪻','🌷','🌀','💛','✨','🌻'];
 function spawnPetal() {
   const p = document.createElement('div'); p.className = 'petal';
   p.textContent = PETALS[Math.floor(Math.random()*PETALS.length)];
