@@ -1,0 +1,370 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Nunito:wght@400;600;700;800&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body { background: transparent; }
+
+  #bday-root {
+    min-height: 520px;
+    background: linear-gradient(135deg, #1a0533 0%, #2d1060 40%, #1a0533 100%);
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    font-family: 'Nunito', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+    text-align: center;
+  }
+
+  canvas#stars {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .sparkles-layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .sparkle {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    animation: floatUp linear infinite;
+    opacity: 0;
+  }
+
+  @keyframes floatUp {
+    0%   { transform: translateY(0) scale(0); opacity: 0; }
+    10%  { opacity: 1; }
+    80%  { opacity: 0.8; }
+    100% { transform: translateY(-560px) scale(1.5); opacity: 0; }
+  }
+
+  .top-icon {
+    font-size: 56px;
+    animation: bounce 1.8s ease-in-out infinite;
+    filter: drop-shadow(0 0 12px #f9a8d4);
+    position: relative;
+    z-index: 2;
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-12px); }
+  }
+
+  .ribbon {
+    position: relative;
+    z-index: 2;
+    margin: 10px 0 4px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .ribbon-line {
+    flex: 1;
+    height: 2px;
+    background: linear-gradient(to right, transparent, #e879f9, transparent);
+  }
+
+  .for-text {
+    font-size: 13px;
+    color: #d8b4fe;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .name-title {
+    font-family: 'Pacifico', cursive;
+    font-size: clamp(2.4rem, 7vw, 3.6rem);
+    color: #fff;
+    text-shadow: 0 0 30px #a855f7, 0 0 60px #7c3aed;
+    position: relative;
+    z-index: 2;
+    animation: glow 2.5s ease-in-out infinite;
+    line-height: 1.15;
+  }
+
+  @keyframes glow {
+    0%, 100% { text-shadow: 0 0 20px #a855f7, 0 0 40px #7c3aed; }
+    50%       { text-shadow: 0 0 40px #e879f9, 0 0 80px #a855f7, 0 0 100px #7c3aed; }
+  }
+
+  .date-badge {
+    position: relative;
+    z-index: 2;
+    margin: 8px 0 20px;
+    background: rgba(168, 85, 247, 0.25);
+    border: 1px solid rgba(232, 121, 249, 0.4);
+    border-radius: 100px;
+    padding: 5px 18px;
+    font-size: 13px;
+    color: #e879f9;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+
+  .countdown-grid {
+    display: flex;
+    gap: 14px;
+    position: relative;
+    z-index: 2;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .cd-box {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(232,121,249,0.3);
+    border-radius: 16px;
+    padding: 14px 18px 10px;
+    min-width: 78px;
+    backdrop-filter: blur(6px);
+    transition: transform 0.3s ease;
+  }
+
+  .cd-box:hover { transform: translateY(-4px) scale(1.04); }
+
+  .cd-num {
+    font-size: clamp(1.8rem, 5vw, 2.6rem);
+    font-weight: 800;
+    color: #fff;
+    line-height: 1;
+    display: block;
+    font-variant-numeric: tabular-nums;
+    text-shadow: 0 0 16px #a855f7;
+  }
+
+  .cd-label {
+    font-size: 11px;
+    color: #c4b5fd;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-top: 4px;
+    display: block;
+    font-weight: 700;
+  }
+
+  .separator {
+    color: #e879f9;
+    font-size: 2rem;
+    font-weight: 800;
+    align-self: center;
+    animation: blink 1s step-start infinite;
+    position: relative;
+    z-index: 2;
+    padding-bottom: 14px;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.2; }
+  }
+
+  .message {
+    position: relative;
+    z-index: 2;
+    margin-top: 20px;
+    color: #e9d5ff;
+    font-size: 15px;
+    font-weight: 600;
+    max-width: 340px;
+    line-height: 1.6;
+    opacity: 0.9;
+  }
+
+  .arrived-msg {
+    position: relative;
+    z-index: 2;
+    font-family: 'Pacifico', cursive;
+    font-size: clamp(1.8rem, 5vw, 2.6rem);
+    color: #f9a8d4;
+    text-shadow: 0 0 30px #ec4899;
+    animation: glow 2s ease-in-out infinite;
+    margin: 10px 0;
+  }
+
+  .confetti-burst {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .conf-dot {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    animation: confFall linear infinite;
+    opacity: 0;
+  }
+
+  @keyframes confFall {
+    0%   { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(580px) rotate(720deg); opacity: 0.3; }
+  }
+</style>
+
+<div id="bday-root">
+  <canvas id="stars"></canvas>
+
+  <div class="sparkles-layer" id="sparkles"></div>
+
+  <div class="top-icon">🎂</div>
+
+  <div class="ribbon">
+    <div class="ribbon-line"></div>
+    <span class="for-text">for</span>
+    <div class="ribbon-line"></div>
+  </div>
+
+  <div class="name-title">Krisha</div>
+
+  <div class="date-badge">✨ May 30, 2026 ✨</div>
+
+  <div class="countdown-grid" id="countdown-grid">
+    <div class="cd-box"><span class="cd-num" id="cd-days">--</span><span class="cd-label">Days</span></div>
+    <div class="separator">:</div>
+    <div class="cd-box"><span class="cd-num" id="cd-hours">--</span><span class="cd-label">Hours</span></div>
+    <div class="separator">:</div>
+    <div class="cd-box"><span class="cd-num" id="cd-mins">--</span><span class="cd-label">Mins</span></div>
+    <div class="separator">:</div>
+    <div class="cd-box"><span class="cd-num" id="cd-secs">--</span><span class="cd-label">Secs</span></div>
+  </div>
+
+  <div class="message" id="bottom-msg">
+    🎉 Get ready to celebrate the most amazing Krisha! 🎉
+  </div>
+</div>
+
+<script>
+(function() {
+  const root = document.getElementById('bday-root');
+
+  // ---- STARS ----
+  const canvas = document.getElementById('stars');
+  const ctx = canvas.getContext('2d');
+
+  function resizeCanvas() {
+    canvas.width = root.offsetWidth;
+    canvas.height = root.offsetHeight;
+  }
+
+  const stars = Array.from({ length: 120 }, () => ({
+    x: Math.random(),
+    y: Math.random(),
+    r: Math.random() * 1.5 + 0.3,
+    alpha: Math.random(),
+    speed: Math.random() * 0.02 + 0.005
+  }));
+
+  function drawStars() {
+    resizeCanvas();
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const t = Date.now() / 1000;
+    stars.forEach(s => {
+      const alpha = 0.3 + 0.7 * (0.5 + 0.5 * Math.sin(t * s.speed * 10 + s.alpha * 20));
+      ctx.beginPath();
+      ctx.arc(s.x * canvas.width, s.y * canvas.height, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255,255,255,${alpha})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(drawStars);
+  }
+  drawStars();
+
+  // ---- SPARKLES ----
+  const sparkLayer = document.getElementById('sparkles');
+  const colors = ['#f9a8d4','#e879f9','#a855f7','#fbbf24','#60a5fa','#34d399'];
+
+  function addSparkle() {
+    const el = document.createElement('div');
+    el.className = 'sparkle';
+    el.style.left = Math.random() * 100 + '%';
+    el.style.bottom = '0';
+    el.style.background = colors[Math.floor(Math.random() * colors.length)];
+    el.style.width = el.style.height = (Math.random() * 8 + 4) + 'px';
+    const dur = Math.random() * 4 + 3;
+    el.style.animationDuration = dur + 's';
+    el.style.animationDelay = Math.random() * 2 + 's';
+    sparkLayer.appendChild(el);
+    setTimeout(() => el.remove(), (dur + 2) * 1000);
+  }
+
+  setInterval(addSparkle, 400);
+
+  // ---- COUNTDOWN ----
+  const target = new Date('2026-05-30T00:00:00');
+
+  function pad(n) { return String(n).padStart(2, '0'); }
+
+  function tick() {
+    const now = new Date();
+    const diff = target - now;
+
+    if (diff <= 0) {
+      // BIRTHDAY!
+      document.getElementById('countdown-grid').innerHTML = '<div class="arrived-msg">🎉 Happy Birthday! 🎉</div>';
+      document.getElementById('bottom-msg').innerHTML = '🌟 Today is Krisha\'s special day! 🌟';
+      launchConfetti();
+      return;
+    }
+
+    const days  = Math.floor(diff / 86400000);
+    const hours = Math.floor((diff % 86400000) / 3600000);
+    const mins  = Math.floor((diff % 3600000)  / 60000);
+    const secs  = Math.floor((diff % 60000)    / 1000);
+
+    document.getElementById('cd-days').textContent  = pad(days);
+    document.getElementById('cd-hours').textContent = pad(hours);
+    document.getElementById('cd-mins').textContent  = pad(mins);
+    document.getElementById('cd-secs').textContent  = pad(secs);
+
+    // dynamic message
+    const msgs = [
+      '🎉 Get ready to celebrate the most amazing Krisha! 🎉',
+      '💜 Something wonderful is coming soon... 💜',
+      '🎂 Counting down every second for you, Krisha! 🎂',
+      '✨ The stars are aligning for Krisha\'s big day! ✨',
+    ];
+    if (secs % 15 === 0) {
+      document.getElementById('bottom-msg').textContent = msgs[Math.floor(Date.now() / 15000) % msgs.length];
+    }
+  }
+
+  tick();
+  setInterval(tick, 1000);
+
+  // ---- CONFETTI for birthday day ----
+  function launchConfetti() {
+    const burst = document.createElement('div');
+    burst.className = 'confetti-burst';
+    root.appendChild(burst);
+    const confColors = ['#f9a8d4','#e879f9','#a855f7','#fbbf24','#60a5fa','#34d399','#f87171','#fb923c'];
+    for (let i = 0; i < 60; i++) {
+      const dot = document.createElement('div');
+      dot.className = 'conf-dot';
+      dot.style.left = Math.random() * 100 + '%';
+      dot.style.top = '-10px';
+      dot.style.background = confColors[Math.floor(Math.random() * confColors.length)];
+      dot.style.animationDuration = (Math.random() * 3 + 2) + 's';
+      dot.style.animationDelay = (Math.random() * 2) + 's';
+      dot.style.width = dot.style.height = (Math.random() * 8 + 6) + 'px';
+      burst.appendChild(dot);
+    }
+  }
+})();
+</script>
